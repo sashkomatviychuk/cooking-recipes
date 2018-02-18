@@ -45,7 +45,6 @@ class Contact extends React.Component {
     }
 
     render() {
-        console.log('rendering...');
         return (
             <Row>
                 <Col md={12}>

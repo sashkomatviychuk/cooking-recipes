@@ -9,18 +9,16 @@ import Contact from './pages/Contact'
 import Login from './pages/Login'
 
 const App = (props) => (
-    <BrowserRouter>
-        <div className="container">
-            <Header />
-            <Switch>
-                <Route exact path="/" component={Home} />
-                <Route path="/recipes" component={Recipes} />
-                <Route path="/about" component={About} />
-                <Route path="/contact" component={Contact} />
-                <Route path="/login" component={Login} />
-            </Switch>
-        </div>
-    </BrowserRouter>
+    <div className="container">
+        <Header />
+        <Switch>
+            <Route exact path="/" component={Home} />
+            <Route path="/recipes" component={Recipes} />
+            <Route path="/about" component={About} />
+            <Route path="/contact" component={Contact} />
+            <Route path="/login" component={Login} />
+        </Switch>
+    </div>
 );
 
 export default App;

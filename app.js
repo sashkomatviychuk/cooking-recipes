@@ -12,13 +12,13 @@ const { createStore } = require('redux');
 const { Provider } = require('react-redux');
 const reducers = require('./src/reducers');
 const { StaticRouter } = require('react-router');
-import configureStore from './src/configureStore.ssr'
-const AppReact = require('./src/containers/App');
+const configureStore = require('./src/configureStore');
+const App = require('./src/containers/App').default;
 
 const config = require('./config');
 // require controllers
 
-class App {
+class Application {
     constructor() {
         this.express = express();
 
@@ -52,17 +52,21 @@ class App {
 
         this.express.get('*', async (req, res) => {
             const store = configureStore(initialState);
-
-            console.log(req.url);
             
-            try {
-                const appMarkup = await ReactDOMServer.renderToString((
+            // try {
+                const appMarkup = ReactDOMServer.renderToString(
                     <StaticRouter location={req.url} context={context}>
                         <Provider store={store}>
-                            <AppReact />
+                            <App />
                         </Provider>
                     </StaticRouter>
-                ));
+                );
+
+                if (context.url) {
+                    return res.redirect(301, context.url);
+                }
+
+                const state = store.getState();
 
                 res.end(`
                     <!DOCTYPE html>
@@ -71,6 +75,9 @@ class App {
                             <meta charset="utf-8">
                             <title>Cooking Recipes</title>
                             <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+                            <script>
+                                window.REDUX_INITIAL_STATE = ${JSON.stringify(store)};
+                            </script>
                         </head>
                         <body>
                             <div id="root">${appMarkup}</div>
@@ -82,11 +89,11 @@ class App {
                         </body>
                     </html>
                 `);
-            } catch (err) {
-                res.send({ err: err.toString()});
-            }
+            // } catch (err) {
+            //     res.send({ err: err.toString()});
+            // }
         });
     }
 }
 
-module.exports = new App().express;
+module.exports = new Application().express;
