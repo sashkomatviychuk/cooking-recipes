@@ -1,35 +1,52 @@
 const passport = require('passport');
 const { Strategy } = require('passport-local');
 const { Application } = require('express');
-
+const Jwt = require('passport-jwt');
 
 passport.use(new Strategy(
-    async (username, password, cb) =>  {
+    async (email, password, done) =>  {
         try {
-            // const user = await User.findOne({ username });
-            // todo: change it
-            const user = {
-                password: '1234',
-                _id: 'abc',
-            };
-
-            if (!user || user.password != password) {
-                return cb(null, false);
+            const user = await User.findOne({ email });
+            
+            if (!user) {
+                return done(null, false);
             }
 
-            return cb(null, user);
+            user.comparePassword(password, (err, isMatch) => {
+                if (err) { return done(err); }
+          
+                if (!isMatch) { return done(null, false); }
+          
+                return done(null, user);
+            });
         } catch (err) {
-            return cb(err);
+            return done(err);
         }
     })
 );
+
+const jwtOptions = {
+    jwtFromRequest: Jwt.ExtractJwt.fromHeader('authorization'),
+    secretOrKey: 'secret',
+  };
+
+passport.use(new Jwt.Strategy(
+    jwtOptions,
+    async (payload, done) => {
+        try {
+            const user = await User.findById(payload.sub);
+            done(null, user);
+        } catch (err) {
+            done(err);
+        }
+    }
+));
 
 passport.serializeUser((user, cb) => cb(null, user._id));
   
 passport.deserializeUser(async (id, cb) => {
     try {
-        // const user = await User.findById(id);
-        const user = { _id: 'abc', password: '1234' };
+        const user = await User.findById(id);
         return cb(null, user);
     } catch (err) {
         return cb(err);
