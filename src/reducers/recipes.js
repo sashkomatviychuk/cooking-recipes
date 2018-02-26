@@ -25,7 +25,10 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 loading: action.loading,
-                recipes: action.recipes,
+                recipes: [
+                    ...state.recipes,
+                    ...action.recipes,
+                ],
                 lastRecipesCount: action.recipes.length,
             };
         
