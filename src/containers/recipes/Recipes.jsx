@@ -23,15 +23,43 @@ class Recipes extends Component {
         this.props.dispatch(fetchRecipes());
     }
 
-    render() {
-        const { loading, recipes, lastRecipesCount } = this.props;
-        
+    getLoadingMessage() {
+        const { loading } = this.props;
+
+        if (loading) {
+            return <span>Loading...</span>;
+        }
+    }
+
+    getEmptyData(isDataEmpty) {
+        const { loading } = this.props;
+
+        if (!loading && isDataEmpty) {
+            return <span>Now recipes list is empty</span>;
+        }
+    }
+
+    getRecipesList() {
+        const { loading, recipes } = this.props;
+
         const data = (recipes && recipes.map((item, i) => <li key={i}>
             <span>{item.title}</span><br/>
             <span>{item.created_at}</span>
         </li>)) || [];
 
-        const emptyData = <span>Now recipes list is empty</span>;
+        if (!loading) {
+            return data;
+        }
+
+        return [];
+    }
+
+    render() {
+        const { loading, recipes, lastRecipesCount } = this.props;
+        
+        const recipesList = this.getRecipesList();
+        const loadingMessage = this.getLoadingMessage();
+        const emptyData = this.getEmptyData(!recipesList.length);
 
         return (<Row>
             <Col md={12}>
@@ -39,12 +67,12 @@ class Recipes extends Component {
                     List of our recipes:
                 </h3>
                 <div>
-                    {!loading && <ul>{data.length && data || ''}</ul> || ''}
-                    {(!loading && !data.length && emptyData) || ''}
-                    {loading && <span>Loading...</span>}
+                    {recipesList}
+                    {emptyData}
+                    {loadingMessage}
                 </div>
                 <div>
-                    {(data.length && lastRecipesCount && <Button  bsStyle="primary" onClick={this.fetchNextPageRecipes}>
+                    {(recipesList.length && lastRecipesCount && <Button  bsStyle="primary" onClick={this.fetchNextPageRecipes}>
                         Load more
                     </Button>) || ''}
                 </div>
