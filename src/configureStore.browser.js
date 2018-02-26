@@ -5,6 +5,7 @@ import createEngine from 'redux-storage-engine-localstorage'
 
 import contact from './reducers/contact';
 import user from './reducers/user';
+import recipes from './reducers/recipes';
 
 export default function () {
     const engine = createEngine('cooking-recipes');
@@ -13,6 +14,7 @@ export default function () {
     const combined = combineReducers({
         contact,
         user,
+        recipes,
     })
 
     const store = createStoreWithMiddleWare(

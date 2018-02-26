@@ -38,7 +38,7 @@ export const sendContact = () => (dispatch, getState) => {
 
     dispatch(sendContactStarted());
 
-    return axios.post('/contact', data)
+    return axios.post('/api/contact', data)
         .then(result => dispatch(sendContactFinished()))
         .catch(err => dispatch(sendContactErrored(err)));
 }
