@@ -1,28 +1,34 @@
 const webpack = require('webpack');
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 const NODE_ENV = process.env.NODE_ENV || 'development';
+const isDev = NODE_ENV === 'development';
+
+let entry = ['react-hot-loader/patch'];
+
+if (isDev) {
+    entry.push('webpack-dev-server/client?http://localhost:9000');
+    entry.push('webpack/hot/only-dev-server');
+}
+
+entry.push('./src/index');
 
 /**
  * Webpack config
  */
 const webpackConfig = {
-    entry: [
-        'react-hot-loader/patch',
-        'webpack-dev-server/client?http://localhost:9000', // WebpackDevServer host and port
-        'webpack/hot/only-dev-server',
-        './src/index',
-    ],
+    entry,
     output: {
         path: path.join(__dirname, './public/dist'),
         publicPath: '/dist',
         filename: 'bundle.js',
     },
 
-    watch: NODE_ENV === 'development',
+    watch: isDev,
 
-    devtool: NODE_ENV === 'development' ? 'cheap-module-eval-source-map' : undefined,
+    devtool: isDev ? 'cheap-module-eval-source-map' : undefined,
 
     resolve: {
         extensions: ['.js', '.jsx', '.json'],
@@ -68,18 +74,22 @@ const webpackConfig = {
 
     plugins: [
         new webpack.DefinePlugin({
-            NODE_ENV: JSON.stringify(NODE_ENV),
+            'process.env.NODE_ENV': JSON.stringify(NODE_ENV),
         }),
         new webpack.NoEmitOnErrorsPlugin(),
         new webpack.NamedModulesPlugin(),
         new webpack.HotModuleReplacementPlugin(),
     ],
+};
 
-    devServer: {
+if (isDev) {
+    webpackConfig.devServer = {
         contentBase: path.join(__dirname, "./public"),
         port: 9000,
         hot: true,
-    }
-};
+    };
+} else {
+    webpackConfig.plugins.push(new UglifyJsPlugin());
+}
 
 module.exports = webpackConfig;

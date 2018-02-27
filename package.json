@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "watch": "webpack-dev-server",
-    "build": "webpack",
+    "build": "NODE_ENV=production webpack",
     "serve": "nodemon server.js"
   },
   "author": "",
@@ -60,6 +60,7 @@
     "sass-loader": "^6.0.6",
     "serve-favicon": "^2.4.5",
     "style-loader": "^0.20.1",
+    "uglifyjs-webpack-plugin": "^1.2.2",
     "url-loader": "^0.6.2",
     "webpack": "^3.10.0",
     "webpack-dev-middleware": "^2.0.5",
