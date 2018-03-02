@@ -5,6 +5,7 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const moment = require('moment');
+const webpack = require('webpack');
 
 const React = require('react');
 const ReactDOMServer = require('react-dom/server');
@@ -16,10 +17,14 @@ const configureStore = require('./src/configureStore');
 const App = require('./src/containers/App').default;
 
 const config = require('./config');
+const webpackConfig = require('./webpack.config');
 // require controllers
 const recipesRoutes = require('./app/controllers/recipesController');
 //models
 require('./app/models');
+
+const NODE_ENV = process.env.NODE_ENV || 'development';
+const isDev = NODE_ENV === 'development';
 
 class Application {
     constructor() {
@@ -32,6 +37,16 @@ class Application {
     }
 
     middlewares() {
+        if (isDev) {
+            const compiler = webpack(webpackConfig);
+
+            this.express.use(require('webpack-dev-middleware')(compiler, {
+                serverSideRender: true,
+                publicPath: webpackConfig.output.publicPath,
+            }));
+              
+            this.express.use(require('webpack-hot-middleware')(compiler));
+        }
         //this.express.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
         this.express.use(bodyParser.json());
         this.express.use(bodyParser.urlencoded({ extended: true }));

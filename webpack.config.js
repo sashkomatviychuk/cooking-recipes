@@ -9,8 +9,7 @@ const isDev = NODE_ENV === 'development';
 let entry = ['react-hot-loader/patch'];
 
 if (isDev) {
-    entry.push('webpack-dev-server/client?http://localhost:9000');
-    entry.push('webpack/hot/only-dev-server');
+    entry.push('webpack-hot-middleware/client');
 }
 
 entry.push('./src/index');
@@ -21,7 +20,7 @@ entry.push('./src/index');
 const webpackConfig = {
     entry,
     output: {
-        path: path.join(__dirname, './public/dist'),
+        path: path.resolve(__dirname, './public/dist'),
         publicPath: '/dist',
         filename: 'bundle.js',
     },
@@ -82,13 +81,7 @@ const webpackConfig = {
     ],
 };
 
-if (isDev) {
-    webpackConfig.devServer = {
-        contentBase: path.join(__dirname, "./public"),
-        port: 9000,
-        hot: true,
-    };
-} else {
+if (!isDev) {
     webpackConfig.plugins.push(new UglifyJsPlugin());
 }
 
