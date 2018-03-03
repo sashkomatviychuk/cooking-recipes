@@ -20,8 +20,11 @@ const config = require('./config');
 const webpackConfig = require('./webpack.config');
 // require controllers
 const recipesRoutes = require('./app/controllers/recipesController');
-//models
+const authRoutes = require('./app/controllers/authController');
+// models
 require('./app/models');
+// passport 
+require('./app/services/auth/passport');
 
 const NODE_ENV = process.env.NODE_ENV || 'development';
 const isDev = NODE_ENV === 'development';
@@ -53,6 +56,7 @@ class Application {
         this.express.use(cookieParser());
         this.express.use(express.static(config.publicPath));
         this.express.use('/api', recipesRoutes);
+        this.express.use('/api', authRoutes);
     }
 
     setupViews() {

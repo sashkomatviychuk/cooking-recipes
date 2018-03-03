@@ -4,6 +4,9 @@ const { Application } = require('express');
 const Jwt = require('passport-jwt');
 
 passport.use(new Strategy(
+    {
+        usernameField: 'email',
+    },
     async (email, password, done) =>  {
         try {
             const user = await User.findOne({ email });
@@ -42,7 +45,9 @@ passport.use(new Jwt.Strategy(
     }
 ));
 
-passport.serializeUser((user, cb) => cb(null, user._id));
+passport.serializeUser((user, cb) => {
+    cb(null, user._id);
+});
   
 passport.deserializeUser(async (id, cb) => {
     try {
@@ -52,10 +57,3 @@ passport.deserializeUser(async (id, cb) => {
         return cb(err);
     }
 });
-
-module.exports = (app) => {
-    // Initialize Passport and restore authentication state, if any, from the
-    // session.
-    app.use(passport.initialize());
-    app.use(passport.session());
-}
