@@ -1,4 +1,4 @@
-import { SET_MESSAGES, CLEAR_MESSAGES } from './../actions/errors'
+import { SET_MESSAGES, CLEAR_MESSAGES } from './../actions/info'
 
 let initialState = {
     messages: [],

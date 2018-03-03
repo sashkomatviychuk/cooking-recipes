@@ -20,8 +20,8 @@ const App = (props) => (
             <Route path="/about" component={requireNotAuth(About)} />
             <Route path="/contact" component={requireNotAuth(Contact)} />
             <Route path="/login" component={requireNotAuth(Login)} />
-            <Route path="/register" component={requireNotAuth(Login)} />
-            <Route path="/profile" component={requireAuth(Login)} />
+            {/* <Route path="/register" component={requireNotAuth(Login)} /> */}
+            {/* <Route path="/profile" component={requireAuth(Login)} /> */}
         </Switch>
     </div>
 );
