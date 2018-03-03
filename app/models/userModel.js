@@ -28,8 +28,6 @@ UserSchema.plugin(timestamps, {
 });
 
 UserSchema.pre('save', function (next) {
-    const user = this;
-
     bcrypt.genSalt(10, (err, salt) => {
         if (err) { return next(err); }
     
