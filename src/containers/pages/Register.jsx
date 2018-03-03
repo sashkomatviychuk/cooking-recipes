@@ -1,12 +1,12 @@
 import React from 'react'
 import {
     Grid, Row, Col, FormGroup, ControlLabel, FormControl, Button
-} from 'react-bootstrap' 
+} from 'react-bootstrap'
 import { LinkContainer } from 'react-router-bootstrap'
 
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux';
-import { onValueChanged, sendContact } from './../../actions/contact';
+import { doRegister } from './../../actions/user';
 
 function FieldGroup({ id, label, ...props }) {
   return (
@@ -17,7 +17,7 @@ function FieldGroup({ id, label, ...props }) {
   );
 }
 
-class Login extends React.Component {
+class Register extends React.Component {
 
     render() {
 
@@ -25,12 +25,28 @@ class Login extends React.Component {
             <Row>
                 <Col md={12}>
                     <h3>
-                        Login to your account
+                        Registration
                     </h3>
                     <div>
                         <Row>
                             <Col md={6}>
                                 <form>
+                                    <FieldGroup
+                                        id="formControlsFirstName"
+                                        type="text"
+                                        label="First name"
+                                        name="first_name"
+                                        placeholder="First name"
+                                        autoComplete="off"
+                                    />
+                                    <FieldGroup
+                                        id="formControlsLastName"
+                                        type="text"
+                                        label="Last name"
+                                        name="last_name"
+                                        placeholder="Last name"
+                                        autoComplete="off"
+                                    />
                                     <FieldGroup
                                         id="formControlsEmail"
                                         type="email"
@@ -46,13 +62,20 @@ class Login extends React.Component {
                                         placeholder="Password"
                                         name="password"
                                     />
+                                    <FieldGroup
+                                        id="formControlsConfirmPassword"
+                                        type="password"
+                                        label="Confirm password"
+                                        placeholder="Confirm password"
+                                        name="confirm_password"
+                                    />
                                     <Button  bsStyle="success">
-                                        Login
+                                        Register
                                     </Button>
                                     <span> or </span>
-                                    <LinkContainer to="/register">
+                                    <LinkContainer to="/login">
                                         <Button  bsStyle="primary">
-                                            Register
+                                            Login
                                         </Button>
                                     </LinkContainer>
                                 </form>
@@ -65,4 +88,4 @@ class Login extends React.Component {
     }
 }
 
-export default Login;
+export default Register;
