@@ -1,8 +1,8 @@
 import React from 'react'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 
-import requireAuth from './hoc/RequireAuth';
-import requireNotAuth from './hoc/RequireNotAuth';
+import requireAuth from './hoc/RequireAuth'
+import requireNotAuth from './hoc/NotRequireAuth'
 
 import Header from './Header';
 import Home from './Home';
