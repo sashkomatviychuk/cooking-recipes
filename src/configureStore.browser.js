@@ -6,6 +6,7 @@ import createEngine from 'redux-storage-engine-localstorage'
 import contact from './reducers/contact';
 import user from './reducers/user';
 import recipes from './reducers/recipes';
+import info from './reducers/info';
 
 export default function () {
     const engine = createEngine('cooking-recipes');
@@ -15,11 +16,12 @@ export default function () {
         contact,
         user,
         recipes,
+        info,
     })
 
     const store = createStoreWithMiddleWare(
-        storage.reducer(combined)
-        // window && window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+        storage.reducer(combined),
+        window && window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
     );
 
     const load = storage.createLoader(engine);
