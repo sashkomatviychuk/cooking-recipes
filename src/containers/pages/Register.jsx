@@ -8,15 +8,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux';
 import { doRegister } from './../../actions/user'
 import validate from './../../validators/register'
-
-function FieldGroup({ id, label, ...props }) {
-  return (
-    <FormGroup controlId={id}>
-      <ControlLabel>{label}</ControlLabel>
-      <FormControl {...props} />
-    </FormGroup>
-  );
-}
+import FieldGroup from './../panels/FieldGroup'
 
 let initialState = () => ({
     data: {
