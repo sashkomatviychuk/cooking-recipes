@@ -34,31 +34,9 @@ export function doLogin(credentials) {
 }
 
 export function doLogout() {
-    return (dispatch, getState) => {
-        return axios.post('/api/logout')
-            .then(response => {
-                if (response.result) {
-                    dispatch(destroyUser());
-                }
-            })
-            .catch(err => {
-                console.log(err);
-            });
-    };
+    dispatch(destroyUser());
 }
 
-export function doRegister(data) {
-    return (dispatch, getState) => {
-        return axios.post('/api/register', data)
-            .then(response => {
-                if (response.result) {
-                    // show message
-                } else {
-                    // show message
-                }
-            })
-            .catch(err => {
-                console.log(err);
-            });
-    };
+export const doRegister = function doRegister(data) {
+    return axios.post('/api/register', data);
 }

@@ -33,6 +33,7 @@
     "file-loader": "^1.1.6",
     "html-webpack-plugin": "^2.30.1",
     "inert": "^5.1.0",
+    "joi": "^13.1.2",
     "jsx-loader": "^0.13.2",
     "jwt-simple": "^0.5.1",
     "lodash": "^4.17.5",

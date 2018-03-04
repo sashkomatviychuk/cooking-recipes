@@ -6,7 +6,8 @@ import { LinkContainer } from 'react-router-bootstrap'
 
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux';
-import { doRegister } from './../../actions/user';
+import { doRegister } from './../../actions/user'
+import validate from './../../validators/register'
 
 function FieldGroup({ id, label, ...props }) {
   return (
@@ -17,9 +18,62 @@ function FieldGroup({ id, label, ...props }) {
   );
 }
 
+let initialState = () => ({
+    data: {
+        first_name: '',
+        last_name: '',
+        email: '',
+        password: '',
+        confirm_password: '',
+    },
+    errors: {},
+});
+
 class Register extends React.Component {
 
+    constructor(props) {
+        super(props);
+
+        this.state = initialState();
+
+        this.onChange = this.onChange.bind(this);
+        this.onClick = this.onClick.bind(this);
+    }
+
+    onChange(e) {
+        const value = e.target.value;
+        const name = e.target.name;
+        const state = this.state;
+
+        state.data[name] = value;
+
+        this.setState({
+            ...state,
+        });
+    }
+
+    onClick() {
+        const { data } = this.state;
+        const errors = validate(data);
+
+        if (!errors.length) {
+            doRegister(data)
+                .then(({ data }) => {
+                    if (data.result) {
+                        const newState = initialState();
+
+                        this.setState({
+                            ...newState,
+                        });
+                    }
+                });
+        } else {
+            console.log(errors);
+        }
+    }
+
     render() {
+        const { data } = this.state;
 
         return (
             <Row>
@@ -32,6 +86,8 @@ class Register extends React.Component {
                             <Col md={6}>
                                 <form>
                                     <FieldGroup
+                                        onChange={this.onChange}
+                                        value={data.first_name}
                                         id="formControlsFirstName"
                                         type="text"
                                         label="First name"
@@ -40,6 +96,8 @@ class Register extends React.Component {
                                         autoComplete="off"
                                     />
                                     <FieldGroup
+                                        onChange={this.onChange}
+                                        value={data.last_name}
                                         id="formControlsLastName"
                                         type="text"
                                         label="Last name"
@@ -48,6 +106,8 @@ class Register extends React.Component {
                                         autoComplete="off"
                                     />
                                     <FieldGroup
+                                        onChange={this.onChange}
+                                        value={data.email}
                                         id="formControlsEmail"
                                         type="email"
                                         label="Email"
@@ -56,6 +116,8 @@ class Register extends React.Component {
                                         autoComplete="off"
                                     />
                                     <FieldGroup
+                                        onChange={this.onChange}
+                                        value={data.password}
                                         id="formControlsPassword"
                                         type="password"
                                         label="Password"
@@ -63,13 +125,15 @@ class Register extends React.Component {
                                         name="password"
                                     />
                                     <FieldGroup
+                                        onChange={this.onChange}
+                                        value={this.state.data.confirm_password}
                                         id="formControlsConfirmPassword"
                                         type="password"
                                         label="Confirm password"
                                         placeholder="Confirm password"
                                         name="confirm_password"
                                     />
-                                    <Button  bsStyle="success">
+                                    <Button  bsStyle="success" onClick={this.onClick}>
                                         Register
                                     </Button>
                                     <span> or </span>
