@@ -19,7 +19,9 @@ export default (state = initialState, action) => {
         case DESTROY_USER:
             return {
                 ...state,
-                ...initialState,
+                isLoggedIn: false,
+                data: {},
+                token: null,
             };
             
         default:
