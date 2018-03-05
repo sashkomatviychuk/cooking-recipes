@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { showError } from './info'
 
 export const SET_USER = 'SET_USER';
 export const DESTROY_USER = 'DESTROY_USER';
@@ -21,14 +22,14 @@ export function doLogin(credentials) {
     return (dispatch, getState) => {
         return axios.post('/api/login', credentials)
             .then(response => {
-                const { data, token } = response; 
+                const { data, token } = response.data;
 
                 if (data && token) {
                     dispatch(setUser(data, token));
                 }
             })
             .catch(err => {
-                console.log(err); // todo: implement
+                dispatch(showError('Bad login or password'));
             });
     };
 }

@@ -12,19 +12,20 @@ import About from './pages/About'
 import Contact from './pages/Contact'
 import Login from './pages/Login'
 import Register from './pages/Register'
+import Profile from './user/Profile'
 
 const App = (props) => (
-    <div>
+    <div className="container">
         <InfoPanel />
         <Header />
         <Switch>
-            <Route exact path="/" component={requireNotAuth(Home)} />
-            <Route path="/recipes" component={requireNotAuth(Recipes)} />
-            <Route path="/about" component={requireNotAuth(About)} />
-            <Route path="/contact" component={requireNotAuth(Contact)} />
+            <Route exact path="/" component={Home} />
+            <Route path="/recipes" component={Recipes} />
+            <Route path="/about" component={About} />
+            <Route path="/contact" component={Contact} />
             <Route path="/login" component={requireNotAuth(Login)} />
             <Route path="/register" component={requireNotAuth(Register)} />
-            {/* <Route path="/profile" component={requireAuth(Login)} /> */}
+            <Route path="/profile" component={requireAuth(Profile)} />
         </Switch>
     </div>
 );

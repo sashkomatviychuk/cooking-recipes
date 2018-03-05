@@ -1,26 +1,18 @@
-import React from 'react';
-import { connect } from 'react-redux';
+import React from 'react'
+import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { browserHistory } from 'react-router';
+import { Redirect } from 'react-router'
 
 export default function (ComposedComponent) {
 
     class Authentication extends React.Component {
 
-        componentWillMount() {
-            if (!this.props.isLoggedIn) {
-                browserHistory.push('/login');
-            }
-        }
-
-        componentWillUpdate(nextProps) {
-            if (!nextProps.isLoggedIn) {
-                browserHistory.push('/login');
-            }
-        }
-
         render() {
-            return <ComposedComponent {...this.props} />
+            if (this.props.isLoggedIn) {
+                return <ComposedComponent {...this.props} />
+            }
+
+            return <Redirect to="/login" />
         }
     }
 

@@ -39,7 +39,7 @@ class Header extends React.Component {
                         {!isLoggedIn && <LinkContainer to="/login">
                             <NavItem eventKey={6}>Login</NavItem>
                         </LinkContainer>}
-                        {isLoggedIn && <LinkContainer to="#">
+                        {isLoggedIn && <LinkContainer to="/profile">
                             <NavItem eventKey={7}>Profile</NavItem>
                         </LinkContainer>}
                     </Nav>

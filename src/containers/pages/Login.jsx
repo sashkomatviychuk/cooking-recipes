@@ -6,18 +6,28 @@ import { LinkContainer } from 'react-router-bootstrap'
 
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux';
-import { onValueChanged, sendContact } from './../../actions/contact';
-
-function FieldGroup({ id, label, ...props }) {
-  return (
-    <FormGroup controlId={id}>
-      <ControlLabel>{label}</ControlLabel>
-      <FormControl {...props} />
-    </FormGroup>
-  );
-}
+import FieldGroup from './../panels/FieldGroup'
+import { showInfo, showError } from './../../actions/info'
+import { doLogin } from './../../actions/user'
 
 class Login extends React.Component {
+
+    constructor(props) {
+        super(props);
+
+        this.onClick = this.onClick.bind(this);
+        this.email = {};
+        this.password = {};
+    }
+
+    onClick() {
+        const credentials = {
+            email: this.email.value,
+            password: this.password.value,
+        };
+
+        this.props.dispatch(doLogin(credentials));
+    }
 
     render() {
 
@@ -38,6 +48,7 @@ class Login extends React.Component {
                                         name="email"
                                         placeholder="Email"
                                         autoComplete="off"
+                                        inputRef={(input) => this.email = input}
                                     />
                                     <FieldGroup
                                         id="formControlsPassword"
@@ -45,8 +56,9 @@ class Login extends React.Component {
                                         label="Password"
                                         placeholder="Password"
                                         name="password"
+                                        inputRef={(input) => this.password = input}
                                     />
-                                    <Button  bsStyle="success">
+                                    <Button  bsStyle="success" onClick={this.onClick}>
                                         Login
                                     </Button>
                                     <span> or </span>
@@ -65,4 +77,4 @@ class Login extends React.Component {
     }
 }
 
-export default Login;
+export default connect()(Login);
