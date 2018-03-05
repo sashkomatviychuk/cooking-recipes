@@ -1,19 +1,19 @@
-export const SET_MESSAGES = 'SET_MESSAGES';
-export const CLEAR_MESSAGES = 'CLEAR_MESSAGES';
+export const SHOW_MESSAGE = 'SHOW_MESSAGE';
+export const HIDE_MESSAGE = 'HIDE_MESSAGE';
 
-const normalize = items => Array.isArray(items) ? items : [items];
-
-export function setMessages(messages) {
-    const messagesData = normalize(messages);
-
+function showMessage(message, style) {
     return {
-        type: SET_MESSAGES,
-        messages: messagesData.map(e => e.toString()),
+        message,
+        style,
+        type: SHOW_MESSAGE,
     };
 }
 
-export function clearMessages() {
+export const showInfo = (message) => showMessage(message, 'info');
+export const showError = (message) => showMessage(message, 'danger');
+
+export const hideMessage = function hideMessage() {
     return {
-        type: CLEAR_MESSAGES,
+        type: HIDE_MESSAGE,
     };
 }

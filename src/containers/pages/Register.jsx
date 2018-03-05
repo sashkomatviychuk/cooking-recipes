@@ -9,6 +9,7 @@ import { connect } from 'react-redux';
 import { doRegister } from './../../actions/user'
 import validate from './../../validators/register'
 import FieldGroup from './../panels/FieldGroup'
+import { showInfo, showError } from './../../actions/info'
 
 let initialState = () => ({
     data: {
@@ -57,10 +58,13 @@ class Register extends React.Component {
                         this.setState({
                             ...newState,
                         });
+
+                        this.props.dispatch(showInfo('Successfuly registered! Now you can log in'));
                     }
                 });
         } else {
-            console.log(errors);
+            const err = errors.shift();
+            this.props.dispatch(showError(err.message));
         }
     }
 
@@ -144,4 +148,4 @@ class Register extends React.Component {
     }
 }
 
-export default Register;
+export default connect()(Register);

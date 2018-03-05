@@ -5,6 +5,7 @@ import requireAuth from './hoc/RequireAuth'
 import requireNotAuth from './hoc/NotRequireAuth'
 
 import Header from './Header';
+import InfoPanel from './panels/InfoPanel'
 import Home from './Home';
 import Recipes from './recipes/Recipes'
 import About from './pages/About'
@@ -13,7 +14,8 @@ import Login from './pages/Login'
 import Register from './pages/Register'
 
 const App = (props) => (
-    <div className="container">
+    <div>
+        <InfoPanel />
         <Header />
         <Switch>
             <Route exact path="/" component={requireNotAuth(Home)} />

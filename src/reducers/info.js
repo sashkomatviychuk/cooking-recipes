@@ -1,21 +1,24 @@
-import { SET_MESSAGES, CLEAR_MESSAGES } from './../actions/info'
+import { SHOW_MESSAGE, HIDE_MESSAGE } from './../actions/info'
 
 let initialState = {
-    messages: [],
+    message: '',
+    type: null,
 };
 
 export default (state = initialState, action) => {
     switch (action.type) {
-        case SET_MESSAGES:
+        case SHOW_MESSAGE:
             return {
                 ...state,
-                messages: action.messages,
+                message: action.message,
+                type: action.style,
             };
 
-        case CLEAR_MESSAGES:
+        case HIDE_MESSAGE:
             return {
                 ...state,
-                messages: [],
+                message: '',
+                type: null,
             };
             
         default:

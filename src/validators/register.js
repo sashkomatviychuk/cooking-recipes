@@ -22,7 +22,7 @@ const rules = [
     {
         field: 'password',
         validator: value => value && value.length > 5,
-        errorMessage: 'Field "Password" is required and must be 6 or more characters lenght',
+        errorMessage: 'Field "Password" is required and must be 6 or more characters length',
     },
     {
         field: 'confirm_password',
