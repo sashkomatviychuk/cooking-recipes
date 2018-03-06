@@ -6,6 +6,8 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const moment = require('moment');
 const webpack = require('webpack');
+const passport = require('passport');
+const session = require('express-session');
 
 const React = require('react');
 const ReactDOMServer = require('react-dom/server');
@@ -55,6 +57,13 @@ class Application {
         this.express.use(bodyParser.urlencoded({ extended: true }));
         this.express.use(cookieParser());
         this.express.use(express.static(config.publicPath));
+        this.express.use(session({
+            secret: '123',
+            saveUninitialized: true,
+            resave: true,
+        }));
+        this.express.use(passport.initialize());
+        this.express.use(passport.session());
         this.express.use('/api', recipesRoutes);
         this.express.use('/api', authRoutes);
     }
@@ -70,10 +79,21 @@ class Application {
     }
 
     ssrRendering() {
-        const initialState = {};
+        const initialState = {
+            user: {
+                isLoggedIn: false,
+            }
+        };
+
         const context = {};
 
         this.express.get('*', async (req, res) => {
+            if (req.user) {
+                initialState.user = {
+                    data: req.user,
+                    isLoggedIn: true,
+                }
+            }
             const store = configureStore(initialState);
             
             const appMarkup = ReactDOMServer.renderToString(

@@ -2,17 +2,20 @@ import React from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { Redirect } from 'react-router'
+import history from './../../history'
+import Profile from './../user/Profile'
 
 export default function (ComposedComponent) {
 
     class NotAuthentication extends React.Component {
 
         render() {
-            if (!this.props.isLoggedIn) {
-                return <ComposedComponent {...this.props} />
+            if (this.props.isLoggedIn) {
+                history.push('/profile');
+                return <Profile {...this.props} />
             }
 
-            return <Redirect to="/profile" />
+            return <ComposedComponent {...this.props} />
         }
     }
 

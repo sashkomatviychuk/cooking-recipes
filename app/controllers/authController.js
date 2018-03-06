@@ -7,7 +7,7 @@ const router = express.Router();
 const generateToken = require('./../services/auth/token');
 
 const requireAuth = passport.authenticate('jwt', { session: false });
-const requireSignin = passport.authenticate('local', { session: false });
+const requireSignin = passport.authenticate('local');
 
 class AuthController {
 
