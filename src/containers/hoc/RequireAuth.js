@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { Redirect } from 'react-router'
-import history from './../../history'
+
 import Login from './../pages/Login'
 
 export default function (ComposedComponent) {
@@ -11,7 +11,7 @@ export default function (ComposedComponent) {
 
         render() {
             if (!this.props.isLoggedIn) {
-                history.push('/login');
+                return <Redirect to="/login" />
             } else {
                 return <ComposedComponent {...this.props} />
             }

@@ -9,6 +9,14 @@ const generateToken = require('./../services/auth/token');
 const requireAuth = passport.authenticate('jwt', { session: false });
 const requireSignin = passport.authenticate('local');
 
+const auth = (req, res, next) => {
+    if (req.isAuthenticated()) {
+        return next();
+    }
+
+    res.status(401).json({ result: 0 });
+}
+
 class AuthController {
 
     async postRegister(req, res, next) {
@@ -41,11 +49,21 @@ class AuthController {
             token,
         });
     }
+
+    async postLogout(req, res) {
+        try {
+            req.logout();
+            return res.json({ result: 1 });
+        } catch (err) {
+            return res.json({ result: 0 });
+        }
+    }
 }
 
 const ctrl = new AuthController();
 
 router.post('/login', requireSignin, ctrl.postLogin);
 router.post('/register', ctrl.postRegister);
+router.post('/logout', auth, ctrl.postLogout);
 
 module.exports = router;

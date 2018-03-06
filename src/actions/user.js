@@ -34,8 +34,22 @@ export function doLogin(credentials) {
     };
 }
 
-export function doLogout() {
-    dispatch(destroyUser());
+export const doLogout = function doLogout() {
+    return (dispatch, getState) => {
+        return axios.post('/api/logout')
+            .then(response => {
+                const { result } = response.data;
+
+                if (result) {
+                    dispatch(destroyUser());
+                } else {
+                    dispatch(showError('Logout failed. Try again'));
+                }
+            })
+            .catch(() => {
+                dispatch(showError('Logout failed. Try again'));
+            });
+    }
 }
 
 export const doRegister = function doRegister(data) {
