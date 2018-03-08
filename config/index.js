@@ -4,4 +4,10 @@ module.exports = {
     publicPath: path.join(__dirname, './../public'),
     viewsPath: path.join(__dirname, './../app/views'),
     connection: 'mongodb://localhost:27017/cooking_recipes',
+
+    session: {
+        secret: '123',
+        saveUninitialized: true,
+        resave: true,
+    },
 };
