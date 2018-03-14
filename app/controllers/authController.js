@@ -1,36 +1,18 @@
+const _ = require('lodash');
 const express = require('express');
 const ObjectId = require('mongoose').Types.ObjectId;
-const _ = require('lodash');
-const passport = require('passport');
-const router = express.Router();
 
 const generateToken = require('./../services/auth/token');
+const { requireSignin, auth } = require('./../services/auth/middlewares');
+const UserService = require('./../services/user/userService');
 
-const requireAuth = passport.authenticate('jwt', { session: false });
-const requireSignin = passport.authenticate('local');
-
-const auth = (req, res, next) => {
-    if (req.isAuthenticated()) {
-        return next();
-    }
-
-    res.status(401).json({ result: 0 });
-}
+const router = express.Router();
 
 class AuthController {
 
     async postRegister(req, res, next) {
-        const data = req.body;
-
         try {
-            const user = new User(data);
-            const result = await user.save();
-
-            if (result) {
-                return res.json({ result: 1 });
-            }
-
-            return res.json({ result: 0 });
+            await UserService.register(req.data);
         } catch (err) {
             return res.json({ result: 0 });
         }
