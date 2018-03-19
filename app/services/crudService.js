@@ -15,7 +15,7 @@ class CrudService {
     }
 
     /**
-     * Create new model entity
+     * Creates new model entity
      * @param {Object} data 
      */
     async create(data) {
@@ -64,7 +64,7 @@ class CrudService {
     }
 
     /**
-     * Removed document with provided id
+     * Removes document with provided id
      * @param {ObjectId} id 
      */
     async remove(id) {
