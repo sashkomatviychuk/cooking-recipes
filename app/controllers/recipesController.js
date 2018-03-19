@@ -2,35 +2,25 @@ const express = require('express');
 const ObjectId = require('mongoose').Types.ObjectId;
 const router = express.Router();
 
-const RECIPES_LIMIT = 10;
+const RecpiesService = require('./../services/recipes/recipesService');
 
 class RecipesController {
 
     async getRecipes(req, res, next) {
-        const page = parseInt(req.query.page) || 1;
-        const skip = (page - 1) * RECIPES_LIMIT;
+        const service = new RecpiesService();
 
         try {
-            const recipes = await Recipe
-                .find()
-                .sort({ _id: -1 })
-                .limit(RECIPES_LIMIT)
-                .skip(skip)
-                .lean()
-                .exec();
-            
-            if (!Array.isArray(recipes)) {
-                return res.json({
-                    result: 0,
-                });
-            }
+            const recipes = await service.getPaginatedList(
+                {},
+                { page: req.query.page }
+            ); 
 
             res.json({
                 result: 1,
-                data: recipes,
+                data: recipes || [],
             });
         } catch (err) {
-            next(err);
+            res.json({ result: 0 });
         }
     }
 

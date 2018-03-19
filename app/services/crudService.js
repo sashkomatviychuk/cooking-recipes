@@ -1,5 +1,9 @@
 class CrudService {
 
+    constructor() {
+        this.DEFAULT_ENTITIES_LIMIT = 10;
+    }
+
     /**
      * Get entity service model
      */
@@ -12,6 +16,27 @@ class CrudService {
      */
     getValidator() {
         return null;
+    }
+
+    /**
+     * Returns paginated list of entities
+     * @param {Object} filter 
+     * @param {Object} options
+     * @returns {Array}
+     */
+    async getPaginatedList(filter, options) {
+        const model = this.getModel();
+        const page = parseInt(options.page) || 1;
+        const limit = parseInt(options.limit) || this.DEFAULT_ENTITIES_LIMIT;
+        const skip = (page - 1) * limit;
+
+        return await model
+            .find(filter || {})
+            .sort({ _id: -1 })
+            .limit(limit)
+            .skip(skip)
+            .lean()
+            .exec();
     }
 
     /**
