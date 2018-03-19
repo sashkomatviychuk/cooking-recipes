@@ -1,6 +1,5 @@
 const _ = require('lodash');
 const express = require('express');
-const ObjectId = require('mongoose').Types.ObjectId;
 
 const generateToken = require('./../services/auth/token');
 const { requireSignin, auth } = require('./../services/auth/middlewares');
@@ -12,7 +11,10 @@ class AuthController {
 
     async postRegister(req, res, next) {
         try {
-            await UserService.register(req.data);
+            const service = new UserService();
+            await service.create(req.data);
+
+            res.json({ result: 1 });
         } catch (err) {
             return res.json({ result: 0 });
         }

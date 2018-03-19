@@ -1,14 +1,12 @@
-class UserService {
+const CrudService = require('./../crudService');
 
-    static async register(data) {
-        // validation
-        const user = new User(data);
-        
-        try {
-            return await user.save();
-        } catch (err) {
-            throw err;
-        }
+class UserService extends CrudService {
+
+    /**
+     * @returns {Schema} 
+     */
+    getModel() {
+        return User;
     }
 }
 
