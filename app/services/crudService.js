@@ -1,3 +1,5 @@
+const ObjectId = require('mongoose').Types.ObjectId;
+
 class CrudService {
 
     constructor() {
@@ -16,6 +18,19 @@ class CrudService {
      */
     getValidator() {
         return null;
+    }
+
+    /**
+     * @param {String} id 
+     */
+    async findById(id) {
+        if (!ObjectId.isValid(id)) {
+            return null;
+        }
+
+        return await this.getModel()
+            .findOne({ _id: ObjectId(id)})
+            .exec();
     }
 
     /**
