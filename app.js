@@ -15,6 +15,7 @@ const applyWebpackMiddleware = require('./app/services/front/webpack');
 const recipesRoutes = require('./app/controllers/recipesController');
 const authRoutes = require('./app/controllers/authController');
 const frontRoutes = require('./app/controllers/frontController');
+const pagesRoutes = require('./app/controllers/pagesController');
 // models
 require('./app/models');
 // passport 
@@ -50,6 +51,7 @@ class Application {
         // apply routes
         this.express.use('/api', recipesRoutes);
         this.express.use('/api', authRoutes);
+        this.express.use('/api', pagesRoutes);
     }
 
     setupViews() {

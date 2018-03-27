@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { showError, showInfo } from './info'
 
 export const SET_CONTACT_FIELD = 'SET_CONTACT_FIELD';
 export const CLEAR_CONTACT_FORM = 'CLEAR_CONTACT_FORM';
@@ -39,6 +40,12 @@ export const sendContact = () => (dispatch, getState) => {
     dispatch(sendContactStarted());
 
     return axios.post('/api/contact', data)
-        .then(result => dispatch(sendContactFinished()))
-        .catch(err => dispatch(sendContactErrored(err)));
+        .then(result => {
+            dispatch(sendContactFinished());
+            dispatch(showInfo('Mail was sent'))
+        })
+        .catch(err => {
+            dispatch(sendContactErrored(err));
+            dispatch(showError('Error occured during mail sending'));
+        });
 }
