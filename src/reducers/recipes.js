@@ -31,7 +31,7 @@ export default (state = initialState, action) => {
                 ],
                 lastRecipesCount: action.recipes.length,
             };
-        
+
         case RECIPES_LOADED_ERRORED:
             return {
                 ...state,
@@ -39,7 +39,7 @@ export default (state = initialState, action) => {
                 error: action.error, // create own handling error action
                 lastRecipesCount: 0,
             };
-        
+
         case INCREASE_RECIPS_PAGE:
             return {
                 ...state,

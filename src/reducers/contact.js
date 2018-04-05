@@ -17,14 +17,19 @@ export default (state = initialState, action) => {
         case SET_CONTACT_FIELD:
             const contactData = state.contactData;
             contactData[action.name] = action.value;
-            
+
             return {
                 ...state,
                 contactData,
             };
 
         case CLEAR_CONTACT_FORM:
-            return initialState;
+            return {
+                ...state,
+                sending: false,
+                error: null,
+                contactData: {},
+            };
 
         case SEND_CONTACT_STARTED:
             return {
@@ -38,7 +43,7 @@ export default (state = initialState, action) => {
                 sending: false,
                 error: null,
             };
-        
+
         case SEND_CONTACT_ERRORED:
             return {
                 ...state,

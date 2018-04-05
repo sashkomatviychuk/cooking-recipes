@@ -1,7 +1,7 @@
 import React from 'react'
 import {
     Grid, Row, Col, FormGroup, ControlLabel, FormControl, Button
-} from 'react-bootstrap' 
+} from 'react-bootstrap'
 
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux';
@@ -25,12 +25,16 @@ class Contact extends React.Component {
         this.onSend = this.onSend.bind(this);
     }
 
-    componentDidMount() {
+    fetchDataFromProps() {
         const { text, email, name } = this.props.contactData || {};
 
         this.name.value = name || '';
         this.email.value = email || '';
         this.text.value = text || '';
+    }
+
+    componentDidMount() {
+        this.fetchDataFromProps();
     }
 
     onChange(e) {
@@ -41,7 +45,8 @@ class Contact extends React.Component {
     }
 
     onSend() {
-        this.props.dispatch(sendContact());
+        this.props.dispatch(sendContact())
+            .then(() => this.fetchDataFromProps());
     }
 
     render() {

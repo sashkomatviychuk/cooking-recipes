@@ -16,6 +16,10 @@ function sendContactFinished() {
     return { type: SEND_CONTACT_FINISHED };
 }
 
+function clearForm() {
+    return { type: CLEAR_CONTACT_FORM };
+}
+
 function sendContactErrored(error) {
     return {
         error,
@@ -40,9 +44,14 @@ export const sendContact = () => (dispatch, getState) => {
     dispatch(sendContactStarted());
 
     return axios.post('/api/contact', data)
-        .then(result => {
-            dispatch(sendContactFinished());
-            dispatch(showInfo('Mail was sent'))
+        .then(({data}) => {
+            if (data.result) {
+                dispatch(sendContactFinished());
+                dispatch(clearForm());
+                dispatch(showInfo('Mail was sent'));
+            } else if (data.error) {
+                dispatch(showError(data.error));
+            }
         })
         .catch(err => {
             dispatch(sendContactErrored(err));

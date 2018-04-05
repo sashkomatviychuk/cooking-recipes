@@ -23,7 +23,7 @@ export default (state = initialState, action) => {
                 data: {},
                 token: null,
             };
-            
+
         default:
             return state;
     }
