@@ -1,7 +1,7 @@
 class CrudController {
 
     /**
-     * 
+     *
      */
     constructor() {
         this.defaultService = this.getDefaultService();
@@ -15,8 +15,8 @@ class CrudController {
     }
 
     /**
-     * @param {Request} req 
-     * @param {Response} res 
+     * @param {Request} req
+     * @param {Response} res
      */
     async getEntity(req, res) {
         const id = req.params.id;
@@ -43,15 +43,15 @@ class CrudController {
     }
 
     /**
-     * @param {Request} req 
-     * @param {Response} res 
+     * @param {Request} req
+     * @param {Response} res
      */
     async getEntitiesList(req, res) {
         try {
             const entities = await this.defaultService.getPaginatedList(
                 {},
                 { page: req.query.page }
-            ); 
+            );
 
             res.json({
                 result: 1,
@@ -64,8 +64,8 @@ class CrudController {
 
     /**
      * Post create action
-     * @param {Request} req 
-     * @param {Response} res 
+     * @param {Request} req
+     * @param {Response} res
      */
     async postCreate(req, res) {
         try {
@@ -78,7 +78,7 @@ class CrudController {
 
     /**
      * Post update action
-     * @param {Request} req 
+     * @param {Request} req
      * @param {Response} res
      */
     async postUpdate(req, res) {
@@ -92,8 +92,8 @@ class CrudController {
 
     /**
      * Post remove action
-     * @param {Request} req 
-     * @param {Response} res 
+     * @param {Request} req
+     * @param {Response} res
      */
     async postRemove(req, res) {
         try {

@@ -14,14 +14,14 @@ class CrudService {
     }
 
     /**
-     * Data validator, null by default 
+     * Data validator, null by default
      */
     getValidator() {
         return null;
     }
 
     /**
-     * @param {String} id 
+     * @param {String} id
      */
     async findById(id) {
         if (!ObjectId.isValid(id)) {
@@ -35,7 +35,7 @@ class CrudService {
 
     /**
      * Returns paginated list of entities
-     * @param {Object} filter 
+     * @param {Object} filter
      * @param {Object} options
      * @returns {Array}
      */
@@ -56,7 +56,7 @@ class CrudService {
 
     /**
      * Creates new model entity
-     * @param {Object} data 
+     * @param {Object} data
      */
     async create(data) {
         const model = this.getModel();
@@ -71,7 +71,7 @@ class CrudService {
         }
 
         const entity = new model(data);
-        
+
         try {
             await entity.save();
         } catch (err) {
@@ -81,13 +81,13 @@ class CrudService {
 
     /**
      * Updates document with provided id
-     * @param {Object} data 
-     * @param {ObjectId} id 
+     * @param {Object} data
+     * @param {ObjectId} id
      */
     async update(data, id) {
         const model = this.getModel();
         const validator = this.getValidator();
-        
+
         if (validator) {
             const error = validator.validate(data);
 
@@ -105,7 +105,7 @@ class CrudService {
 
     /**
      * Removes document with provided id
-     * @param {ObjectId} id 
+     * @param {ObjectId} id
      */
     async remove(id) {
         const model = this.getModel();
